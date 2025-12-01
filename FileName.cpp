@@ -48,8 +48,8 @@ int main(void)
             out_count = out_count - 1;   //볼 1감소
         }
         else if (ball[1] == input[0] || ball[1] == input[2]) {     //숫자가 같음 볼 위치는 다름
-            ball_count + 1;
-            out_count - 1;
+            ball_count + 1;               //볼 1증가
+            out_count - 1;                //볼 1감소
         }
         if (ball[0] == input[2])     // 볼 카운트
         {
@@ -57,8 +57,8 @@ int main(void)
             out_count = out_count - 1;    //볼 1감소
         }
         else if (ball[2] == input[0] || ball[2] == input[1]) {       //숫자가 같지만 위치 다름 볼
-            ball_count + 1;
-            out_count - 1;
+            ball_count + 1;          //볼 1증가
+            out_count - 1;            //볼 1감소
         }
 
         if (ball[0] == input[0] && ball[1] == input[1] && ball[2] == input[2])   //숫자가 맞으면 홈런
