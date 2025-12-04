@@ -1,77 +1,57 @@
-#include <stdio.h>   //printf,scanf¸¦ »ç¿ëÇÏ±â À§ÇØ ÇØ´õ Ãß°¡ 
-#include <stdlib.h>   //rnad ,srand¸¦ »ç¿ëÇÏ±â À§ÇØ ÇØ´õ Ãß°¡
-#include <time.h>     // timeÀ» »ç¿ëÇÏ±â À§ÇØ ÇØ´õ Ãß°¡ 
+ï»¿#include <stdio.h>      //ã…PRINTF, scanfë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ í—¤ë” ì¶”ê°€
+#include <stdlib.h>    // rand, srandë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ í—¤ë” ì¶”ê°€
+#include <time.h>   // time í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ í—¤ë” ì¶”ê°€
 
-int main(void)
-{
-    int ball[3];             //Á¤´ä 3°³¸¦ ÀúÀåÇÒ ¹è¿­
-    srand(time(NULL));   //³­¼ö ½Ãµå ÃÊ±âÈ­
+int main(void)      //í”„ë¡œê·¸ë¨ì„ ì‹¤í–‰í•˜ëŠ” main í•¨ìˆ˜
+{                   //ë©”ì¸í•¨ìˆ˜ì˜ ì‹œì‘
+    int ball[3]; // 3ê°œì˜ ë‚œìˆ˜ ì €ì¥ ë°°ì—´
+    srand(time(NULL)); // ë‚œìˆ˜ ì´ˆê¸°í™”
+    // ì¤‘ë³µ ì—†ëŠ” 3ìë¦¬ ë‚œìˆ˜ ìƒì„±
+    do {
+        ball[0] = rand() % 10;
+        ball[1] = rand() % 10;
+        ball[2] = rand() % 10;
+    } while (ball[0] == ball[1] || ball[0] == ball[2] || ball[1] == ball[2]);
 
-    do {                            //Áßº¹¾ø´Â ³­¼ö 3°³ Ãß°¡ 
-        ball[0] = rand() % 10;     //0~9ÀÇ ¼ıÀÚ ·£´ı Ãß°¡
-        ball[1] = rand() % 10;     //0~9ÀÇ ¼ıÀÚ ·£´ı Ãß°¡  
-        ball[2] = rand() % 10;      //0~9ÀÇ ¼ıÀÚ ·£´ı Ãß°¡ 
+    printf("baseball : %d %d %d\n", ball[0], ball[1], ball[2]); // ì •ë‹µ í™•ì¸ìš©(í…ŒìŠ¤íŠ¸ì‹œë§Œ)
 
-    } while (ball[0] == ball[1] || ball[0] == ball[2] || ball[1] == ball[2]);    //»ı¼ºµÈ ¼ıÀÚ°¡ Áßº¹ÀÌ¸é ´Ù½Ã »ı¼º
-    printf("baseball : %d %d\n", ball[0], ball[1], ball[2]);         // ¼ıÀÚ 3°³ Ãâ·Â
+    int input[3];
+    int strike_count = 0;
+    int ball_count = 0;
+    int out_count = 0;
+    int try_count = 0;
 
-    while (1)                                          //¼º°øÇÒ¶§±îÁö ¹İº¹
-    {
-        int input[3];
-        printf("Enter the first number: ");          //Ã¹ ¼ıÀÚ Ãâ·Â
-        scanf_s("%d", &input[0]);                    //¼ıÀÚ ÀÔ·Â
+    while (1) {
+        printf("\nìˆ«ì 3ê°œë¥¼ ì…ë ¥í•˜ì„¸ìš” (ê³µë°±ìœ¼ë¡œ êµ¬ë¶„): ");
+        scanf_s("%d %d %d", &input[0], &input[1], &input[2]);
 
-        printf("Enter the second number: ");        //2¹øÂ° ¼ıÀÚ Ãâ·Â
-        scanf_s("%d", &input[1]);                    //¼ıÀÚ ÀÔ·Â
+         
+        
 
-        printf("Enter the third number: ");         //3¹ø¤Š ¼ıÀÚ Ãâ·Â
-        scanf_s("%d", &input[2]);                    //¼ıÀÚ ÀÔ·Â
+        strike_count = 0;
+            ball_count = 0;
 
-        printf("input : %d %d %d\n", input[0], input[1], input[2]);  //¼ıÀÚ 3°³ Ãâ·Â
-
-        int strike_count = 0;         //½ºÆ®¶óÀÌÅ© ÃÊ±âÈ­
-        int ball_count = 0;             //º¼ ÃÊ±âÈ­
-        int out_count = 3;             //¾Æ¿ô ÃÊ±âÈ­
-        if (ball[0] == input[0])       // ½ºÆ®¶óÀÌÅ© Ä«¿îÆ®
-        {
-            strike_count = strike_count + 1;   //½ºÆ®¶óÀÌÅ© 1Áõ°¡
-            out_count = out_count - 1;         //¾Æ¿ô 1°¨¼Ò
+        // strike, ball íŒì •
+        for (int i = 0; i < 3; i++) {
+            if (input[i] == ball[i]) {
+                strike_count++;
+            }
+            else if (input[i] == ball[(i + 1) % 3] || input[i] == ball[(i + 2) % 3]) {
+                ball_count++;
+            }
         }
 
-        else if (ball[0] == input[1] || ball[0] == input[2]) {    //¼ıÀÚ°¡ ÀÖÀ½ º¼ À§Ä¡´Â ´Ù¸§
-            ball_count + 1;          //º¼ Áõ°¡
-            out_count - 1;           //º¼ °¨¼Ò
-        }
-        if (ball[0] == input[1])     // º¼ Ä«¿îÆ®
-        {
-            ball_count = ball_count + 1;    //º¼ 1Áõ°¡
-            out_count = out_count - 1;   //º¼ 1°¨¼Ò
-        }
-        else if (ball[1] == input[0] || ball[1] == input[2]) {     //¼ıÀÚ°¡ °°À½ º¼ À§Ä¡´Â ´Ù¸§
-            ball_count + 1;               //º¼ 1Áõ°¡
-            out_count - 1;                //º¼ 1°¨¼Ò
-        }
-        if (ball[0] == input[2])     // º¼ Ä«¿îÆ®
-        {
-            ball_count = ball_count + 1;  //º¼ 1Áõ°¡
-            out_count = out_count - 1;    //º¼ 1°¨¼Ò
-        }
-        else if (ball[2] == input[0] || ball[2] == input[1]) {       //¼ıÀÚ°¡ °°Áö¸¸ À§Ä¡ ´Ù¸§ º¼
-            ball_count + 1;          //º¼ 1Áõ°¡
-            out_count - 1;            //º¼ 1°¨¼Ò
-        }
+        out_count = 3 - (strike_count + ball_count);
 
-        if (ball[0] == input[0] && ball[1] == input[1] && ball[2] == input[2])   //¼ıÀÚ°¡ ¸ÂÀ¸¸é È¨·±
-        {
-            printf("Home Run~\n");  //È¨·± ¸Ş½ÃÁö Ãâ·Â
-            break;   // ¹İº¹ Á¾·á
+        try_count++;
+
+        if (strike_count == 3) {
+            printf("ì¶•í•˜í•©ë‹ˆë‹¤! Home Run! %dë²ˆ ë§Œì— ë§ì·„ìŠµë‹ˆë‹¤!\n", try_count);
         }
-        else
-        {
-            printf("%d Strike, %d Ball, %d Out\n", strike_count, ball_count, out_count);   //½ºÆ®¶óÀÌÅ© º¼ ¾Æ¿ô °á°ú Ãâ·Â
+        else {
+            printf("%d Strike, %d Ball, %d Out\n", strike_count, ball_count, out_count);
         }
     }
-
-    return 0;    //ÇÁ·Î±×·¥ Á¾·á
+    return 0 ;
 }
-    
+
